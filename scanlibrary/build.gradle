@@ -1,0 +1,66 @@
+//apply plugin: 'com.android.library'
+
+plugins {
+    id 'com.android.library'
+   // id 'kotlin-android'
+    id 'maven-publish'
+}
+
+
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        ndk
+                {
+                    moduleName "Scanner"
+                }
+        }
+    sourceSets.main
+            {
+                jniLibs.srcDir 'src/main/libs'
+            }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildToolsVersion '30.0.2'
+
+
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+
+                    groupId = 'com.aloke.scanlibrarys'
+                    artifactId = 'final'
+                    version = '1.0.0'
+                }
+
+                debug(MavenPublication) {
+                    from components.debug
+
+                    groupId = 'com.aloke.scanlibrarys'
+                    artifactId = 'final-debug'
+                    version = '1.0.0'
+                }
+            }
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
+}
+
